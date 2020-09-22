@@ -1,0 +1,46 @@
+openapi: "3.0.0"
+info:
+  title: Example API
+  description: swagger issue example
+  version: v1
+  contact:
+    email: email@email.com
+servers:
+  - url: http://localhost:3010/api
+    description: Sandbox
+tags:
+  - name: Account Service
+paths:
+  /valid/{id}:
+    get:
+      tags:
+        - Account Service
+      summary: local parameter reference
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "service-schemas/mock-account-service.yaml#/responses/get/200/account"
+        "404":
+          description: Not found
+  /invalid/{id}:
+    get:
+      tags:
+        - Account Service
+      summary: external parameter reference
+      parameters:
+        - $ref: "service-schemas/mock-account-service.yaml#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "service-schemas/mock-account-service.yaml#/responses/get/200/account"
+        "404":
+          description: Not found
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: id as integer
+      schema:
+        type: integer
